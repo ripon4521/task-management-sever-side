@@ -26,7 +26,9 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
-    const allcoursesCollection = client.db("taskdb").collection("todoList");
+    const allTaskCollection = client.db("taskdb").collection("todoList");
+    const TrashCollection = client.db("taskdb").collection("Trash");
+    const CompleteCollection = client.db("taskdb").collection("complete");
     // const uploadCoursesCollection = client.db("learnHubDb").collection("uploadcourse");
     // const enrollCoursesCollection = client.db("learnHubDb").collection("enroll");
     // const usersCollection = client.db("learnHubDb").collection("users");
@@ -106,89 +108,95 @@ async function run() {
 
     // / **** Get Operation Start ****************
 
-    app.get('/courses' , async(req , res)=>{
-        try {
-            const result = await allcoursesCollection.find().toArray();
-            res.send(result)
-        } catch (error) {
-            console.log(error);}})
+    // app.get('/courses' , async(req , res)=>{
+    //     try {
+    //         const result = await allcoursesCollection.find().toArray();
+    //         res.send(result)
+    //     } catch (error) {
+    //         console.log(error);}})
 
-    app.get('/enrollment' , async(req , res)=>{
-        try {
-          const email = req.query.email;
-                  // console.log(email);
-                  const query = {email : email};
-            const result = await enrollMentCollection.find(query).toArray();
-            res.send(result)
-        } catch (error) {
-            console.log(error);}})
+    // app.get('/enrollment' , async(req , res)=>{
+    //     try {
+    //       const email = req.query.email;
+    //               // console.log(email);
+    //               const query = {email : email};
+    //         const result = await enrollMentCollection.find(query).toArray();
+    //         res.send(result)
+    //     } catch (error) {
+    //         console.log(error);}})
 
 
-            app.get('/enroll', async(req,res)=>{
-              try {
-                  const email = req.query.email;
-                  // console.log(email);
-                  const query = {email : email};
-                  // console.log(query);
+    //         app.get('/enroll', async(req,res)=>{
+    //           try {
+    //               const email = req.query.email;
+    //               // console.log(email);
+    //               const query = {email : email};
+    //               // console.log(query);
                 
-                  const result =await enrollCoursesCollection.find(query).toArray();
-                  // console.log(result);
-                  res.send(result)
-              } catch (error) { console.log(error); }})
+    //               const result =await enrollCoursesCollection.find(query).toArray();
+    //               // console.log(result);
+    //               res.send(result)
+    //           } catch (error) { console.log(error); }})
 
-            app.get('/sales', async(req,res)=>{
-              try {
+    //         app.get('/sales', async(req,res)=>{
+    //           try {
                  
                 
-                  const result =await enrollCoursesCollection.find().toArray();
-                  // console.log(result);
-                  res.send(result)
-              } catch (error) { console.log(error); }})
+    //               const result =await enrollCoursesCollection.find().toArray();
+    //               // console.log(result);
+    //               res.send(result)
+    //           } catch (error) { console.log(error); }})
 
 
-            app.get('/assighnment', async(req,res)=>{
-              try {
-                  const email = req.query.email;
-                  // console.log(email);
-                  const query = {email : email};
-                  // console.log(query);
+    //         app.get('/assighnment', async(req,res)=>{
+    //           try {
+    //               const email = req.query.email;
+    //               // console.log(email);
+    //               const query = {email : email};
+    //               // console.log(query);
                 
-                  const result =await assignmentCollection.find(query).toArray();
-                  // console.log(result);
-                  res.send(result)
-              } catch (error) { console.log(error); }})
+    //               const result =await assignmentCollection.find(query).toArray();
+    //               // console.log(result);
+    //               res.send(result)
+    //           } catch (error) { console.log(error); }})
 
-            app.get('/feedback', async(req,res)=>{
-              try {
+    //         app.get('/feedback', async(req,res)=>{
+    //           try {
                  
                 
-                  const result =await feedbackCollection.find().toArray();
-                ;
-                  res.send(result)
-              } catch (error) { console.log(error); }})
+    //               const result =await feedbackCollection.find().toArray();
+    //             ;
+    //               res.send(result)
+    //           } catch (error) { console.log(error); }})
 
-            app.get('/uploadCourse', async(req,res)=>{
-              try {
-                  const email = req.query.email;
-                  // console.log(email);
-                  const query = {email : email};
-                  // console.log(query);
+    //         app.get('/uploadCourse', async(req,res)=>{
+    //           try {
+    //               const email = req.query.email;
+    //               // console.log(email);
+    //               const query = {email : email};
+    //               // console.log(query);
                 
-                  const result =await uploadCoursesCollection.find(query).toArray();
-                  // console.log(result);
-                  res.send(result)
-              } catch (error) { console.log(error); }})
+    //               const result =await uploadCoursesCollection.find(query).toArray();
+    //               // console.log(result);
+    //               res.send(result)
+    //           } catch (error) { console.log(error); }})
 
 
-            app.get('/teacherReq', async(req,res)=>{
+    //         app.get('/teacherReq', async(req,res)=>{
+    //           try {
+    //              const result =await uploadCoursesCollection.find().toArray();
+    //               res.send(result)
+    //           } catch (error) { console.log(error); }})
+    
+            app.get('/alltask', async(req,res)=>{
               try {
-                 const result =await uploadCoursesCollection.find().toArray();
+                 const result =await allTaskCollection.find().toArray();
                   res.send(result)
               } catch (error) { console.log(error); }})
     
-            app.get('/todo', async(req,res)=>{
+            app.get('/trash', async(req,res)=>{
               try {
-                 const result =await allcoursesCollection.find().toArray();
+                 const result =await TrashCollection.find().toArray();
                   res.send(result)
               } catch (error) { console.log(error); }})
     
@@ -237,116 +245,162 @@ async function run() {
 
 //    
 
-app.post('/uploadCourse', async(req , res)=>{
+app.post('/alltask', async(req , res)=>{
    try {
-    const course = req.body;
-    const result = await uploadCoursesCollection.insertOne(course)
+    const task = req.body;
+    const result = await allTaskCollection.insertOne(task)
+    res.send(result)
+   } catch (error) {
+    console.log(error);
+   }})
+app.post('/complete', async(req , res)=>{
+   try {
+    const task = req.body;
+    const result = await allTaskCollection.insertOne(task)
     res.send(result)
    } catch (error) {
     console.log(error);
    }})
 
-app.post('/courses', async(req , res)=>{
+app.post('/trash', async(req , res)=>{
    try {
-    const course = req.body;
-    const result = await allcoursesCollection.insertOne(course)
+    const trash = req.body;
+    const result = await TrashCollection.insertOne(trash)
     res.send(result)
    } catch (error) {
     console.log(error);
    }})
 
-app.post('/assignment', async(req , res)=>{
-   try {
-    const assighnment = req.body;
-    const result = await assignmentCollection.insertOne(assighnment)
-    res.send(result)
-   } catch (error) {
-    console.log(error);
-   }})
-app.post('/feedback', async(req , res)=>{
-   try {
-    const feedback = req.body;
+// app.post('/courses', async(req , res)=>{
+//    try {
+//     const course = req.body;
+//     const result = await allcoursesCollection.insertOne(course)
+//     res.send(result)
+//    } catch (error) {
+//     console.log(error);
+//    }})
+
+// app.post('/assignment', async(req , res)=>{
+//    try {
+//     const assighnment = req.body;
+//     const result = await assignmentCollection.insertOne(assighnment)
+//     res.send(result)
+//    } catch (error) {
+//     console.log(error);
+//    }})
+// app.post('/feedback', async(req , res)=>{
+//    try {
+//     const feedback = req.body;
 
    
    
   
-    const result = await feedbackCollection.insertOne(feedback)
-    res.send(result)
-   } catch (error) {
-    console.log(error);
-   }})
+//     const result = await feedbackCollection.insertOne(feedback)
+//     res.send(result)
+//    } catch (error) {
+//     console.log(error);
+//    }})
 
-app.post('/enroll', async(req , res)=>{
-   try {
-    const enrollCourse = req.body;
-    const id = req.body._id;
-    const query = {_id : id }
+// app.post('/enroll', async(req , res)=>{
+//    try {
+//     const enrollCourse = req.body;
+//     const id = req.body._id;
+//     const query = {_id : id }
+//     // console.log(query);
+//     const isexist = await enrollCoursesCollection.findOne(query)
+//     if (isexist) {
+//         return res.send('User Already Exist')
+//     }
+   
+//     const result = await enrollCoursesCollection.insertOne(enrollCourse)
+//     res.send(result)
+//    } catch (error) {
+//     console.log(error);
+//    }})
+   
+
+//    app.post('/users', async(req,res)=>{
+// try {
+//     const user = req.body;
+//     console.log(user);
+//     const query = {email : user.email}
+//     console.log(query);
+//     const existingUser = await usersCollection.findOne(query)
+//     if (existingUser) {
+//         return res.send('User Already Exist')
+//     }
+//     const result = await usersCollection.insertOne(user)
+//     res.send(result)
+// } catch (error) {
+//    console.log(error); 
+// }
+//    })
+// // // /****** Post Operation End ****************
+
+// //  // / **** Delete Operation Start ****************
+//    app.delete('/enroll/:_id' , async(req,res)=>{
+//   try {
+//     const id = req.params._id;
+//     console.log(id);
+//     const query = {_id: new ObjectId (id)}
+//     console.log(query);
+//     const result = await enrollCoursesCollection.deleteOne(query)
+//     res.send(result)
+//   } catch (error) {
+//     console.log(error);
+//   }
+
+//    })
+
+//    app.delete('/courses/:_id' , async(req,res)=>{
+//   try {
+//     const id = req.params._id;
+//     console.log(id);
+//     const query = {_id: new ObjectId (id)}
+//     console.log(query);
+//     const result = await allcoursesCollection.deleteOne(query)
+//     res.send(result)
+//   } catch (error) {
+//     console.log(error);
+//   }
+
+//    })
+
+   app.delete('/alltask/:_id' , async(req,res)=>{
+  try {
+    const id = req.params._id;
+    console.log(id);
+    const query = {_id: new ObjectId (id)}
+    console.log(query);
+    const result = await allTaskCollection.deleteOne(query)
+    res.send(result)
+  } catch (error) {
+    console.log(error);
+  }
+
+   })
+   app.delete('/complete/:_id' , async(req,res)=>{
+  try {
+    const id = req.params._id;
+    console.log(id);
+    const query = {_id: new ObjectId (id)}
+    console.log(query);
+    const result = await allTaskCollection.deleteOne(query)
+    res.send(result)
+  } catch (error) {
+    console.log(error);
+  }
+
+   })
+
+
+   app.delete('/trash/:_id' , async(req,res)=>{
+  try {
+    const id = req.params._id;
+    // console.log(id);
+    const deleted = {_id: new ObjectId (id)}
     // console.log(query);
-    const isexist = await enrollCoursesCollection.findOne(query)
-    if (isexist) {
-        return res.send('User Already Exist')
-    }
-   
-    const result = await enrollCoursesCollection.insertOne(enrollCourse)
-    res.send(result)
-   } catch (error) {
-    console.log(error);
-   }})
-   
-
-   app.post('/users', async(req,res)=>{
-try {
-    const user = req.body;
-    console.log(user);
-    const query = {email : user.email}
-    console.log(query);
-    const existingUser = await usersCollection.findOne(query)
-    if (existingUser) {
-        return res.send('User Already Exist')
-    }
-    const result = await usersCollection.insertOne(user)
-    res.send(result)
-} catch (error) {
-   console.log(error); 
-}
-   })
-// // /****** Post Operation End ****************
-
-//  // / **** Delete Operation Start ****************
-   app.delete('/enroll/:_id' , async(req,res)=>{
-  try {
-    const id = req.params._id;
-    console.log(id);
-    const query = {_id: new ObjectId (id)}
-    console.log(query);
-    const result = await enrollCoursesCollection.deleteOne(query)
-    res.send(result)
-  } catch (error) {
-    console.log(error);
-  }
-
-   })
-
-   app.delete('/courses/:_id' , async(req,res)=>{
-  try {
-    const id = req.params._id;
-    console.log(id);
-    const query = {_id: new ObjectId (id)}
-    console.log(query);
-    const result = await allcoursesCollection.deleteOne(query)
-    res.send(result)
-  } catch (error) {
-    console.log(error);
-  }
-
-   })
-   app.delete('/teacherReq/:_id' , async(req,res)=>{
-  try {
-    const id = req.params._id;
-    console.log(id);
-    const query = {_id: new ObjectId (id)}
-    console.log(query);
-    const result = await uploadCoursesCollection.deleteOne(query)
+    const result = await TrashCollection.deleteOne(deleted)
     res.send(result)
   } catch (error) {
     console.log(error);
