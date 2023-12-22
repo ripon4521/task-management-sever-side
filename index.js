@@ -188,8 +188,9 @@ async function run() {
     //               res.send(result)
     //           } catch (error) { console.log(error); }})
     
-            app.get('/alltask', async(req,res)=>{
+            app.get('/alltask/', async(req,res)=>{
               try {
+            
                  const result =await allTaskCollection.find().toArray();
                   res.send(result)
               } catch (error) { console.log(error); }})
@@ -197,6 +198,12 @@ async function run() {
             app.get('/trash', async(req,res)=>{
               try {
                  const result =await TrashCollection.find().toArray();
+                  res.send(result)
+              } catch (error) { console.log(error); }})
+    
+            app.get('/complete', async(req,res)=>{
+              try {
+                 const result =await CompleteCollection.find().toArray();
                   res.send(result)
               } catch (error) { console.log(error); }})
     
@@ -244,6 +251,24 @@ async function run() {
 
 
 //    
+app.patch("/alltask/:id" , async(req , res)=>{
+  const   id  = req.params._id;
+  const filter = {_id : new ObjectId(id)}
+  const option = {upsert: true}
+  const updateBrand = req.body;
+  const brand ={
+    $set:{
+      taskname:updateBrand.taskname,
+      description:updateBrand.description ,
+      selectedDate:updateBrand.selectedDate ,
+      selectedOption:updateBrand.selectedOption,
+       
+    }
+  }
+  const result = await allTaskCollection.updateOne(filter,brand,option);
+  res.send(result)
+})
+
 
 app.post('/alltask', async(req , res)=>{
    try {
@@ -256,7 +281,7 @@ app.post('/alltask', async(req , res)=>{
 app.post('/complete', async(req , res)=>{
    try {
     const task = req.body;
-    const result = await allTaskCollection.insertOne(task)
+    const result = await CompleteCollection.insertOne(task)
     res.send(result)
    } catch (error) {
     console.log(error);
@@ -379,19 +404,7 @@ app.post('/trash', async(req , res)=>{
   }
 
    })
-   app.delete('/complete/:_id' , async(req,res)=>{
-  try {
-    const id = req.params._id;
-    console.log(id);
-    const query = {_id: new ObjectId (id)}
-    console.log(query);
-    const result = await allTaskCollection.deleteOne(query)
-    res.send(result)
-  } catch (error) {
-    console.log(error);
-  }
 
-   })
 
 
    app.delete('/trash/:_id' , async(req,res)=>{
